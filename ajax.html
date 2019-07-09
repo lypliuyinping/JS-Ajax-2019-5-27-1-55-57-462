@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<script>
+
+    let ajax = {
+        request(url, method, callbak, params) {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = (function (myxhr) {
+                return function() {
+                    if (myxhr.readyState === 4 && myxhr.status === 200) {
+                        callbak(myxhr);
+                    }
+                }
+            })(xhr);
+            xhr.open(method, url, true);
+            xhr.send(params || '');
+        }
+    }
+    function myCallback(xhr) {
+        alert(xhr.responseText);
+    }
+    ajax.request('https://reqres.in/api/users', 'get', myCallback);
+    ajax.request('https://reqres.in/api/users', 'post', myCallback, 'page=2');
+  
+</script>
+</body>
+</html>
